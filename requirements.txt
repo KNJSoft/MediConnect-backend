@@ -1,0 +1,12 @@
+asgiref==3.11.1
+Django==5.2.11
+django-cors-headers==4.9.0
+djangorestframework==3.16.1
+djangorestframework_simplejwt==5.5.1
+pillow==12.1.1
+PyJWT==2.11.0
+sqlparse==0.5.5
+ua-parser==1.0.1
+ua-parser-builtins==202602
+user-agents==2.2.0
+whitenoise==6.11.0
