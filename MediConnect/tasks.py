@@ -3,6 +3,9 @@ from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
 from .models import Case, PandemicSignal
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 """
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import AgglomerativeClustering
@@ -86,3 +89,15 @@ def task_analyze_signals():
                 }
             )
     return f"Analysé {len(stats)} groupes de symptômes."
+
+@shared_task
+def task_send_email(subject, message, email,html_message,user):
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [email],
+        fail_silently=False,
+        html_message=render_to_string(html_message, {'user': user}),
+    )
+    return f"Email envoyé à {email}."

@@ -1,0 +1,5 @@
+MediConnect
+Verification Code
+Voici votre code de verification : {{ user }}
+Cordialement
+MediConnect

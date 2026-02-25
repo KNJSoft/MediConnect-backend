@@ -7,7 +7,9 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-
+from django.conf import settings
+from django.core.mail import send_mail
+from .tasks import task_send_email
 # Create your views here.
 
 class UserRegistrationForm(UserCreationForm):
@@ -53,16 +55,57 @@ def signup_view(request):
             password=password1,
             role=UserRole.PATIENT  # Default to patient
         )
+        # confirmation code
+        user.generate_verification_code()
+        user.save()
+        code=user.verification_code
+        # send email
+        task_send_email('Inscription réussie!', 'Votre inscription a été effectuée avec succès.', email, 'MediConnect/emails/email_signup_succes.html', user)
+        task_send_email('Verification Code', 'Votre code de verification est : ' + code, email, 'MediConnect/emails/email_verification.html', user=code)
+        # send_mail(
+        #     'Inscription réussie!',
+        #     'Votre inscription a été effectuée avec succès.',
+        #     settings.EMAIL_HOST_USER,
+        #     [email],
+        #     fail_silently=False,
+        #     html_message=render_to_string('MediConnect/emails/email_signup_succes.html', {'user': user}),
+        # )
         login(request, user)
         messages.success(request, 'Inscription réussie!')
         return redirect('patient_index')
     
     return render(request, 'MediConnect/signup.html')
 
+# verification code
+
+def verification_code_view(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        user = User.objects.get(verification_code=code)
+        if user.is_verification_code_valid(code):
+            user.is_active = True
+            user.is_verified = True
+            user.save()
+            messages.success(request, 'Code de verification validé!')
+            return redirect('login')
+        else:
+            messages.error(request, 'Code de verification invalide.')
+            return redirect('verification_code')
+    return render(request, 'MediConnect/verification_code.html')
+
 def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        user = User.objects.get(email=email)
+        if user.is_verified == False or user.is_active == False:
+            user.generate_verification_code()
+            user.save()
+            code=user.verification_code
+            # send email
+            task_send_email('Verification Code', 'Votre code de verification est : ' + code, email, 'MediConnect/emails/email_verification.html', user=code)
+            messages.error(request, 'Veuillez vérifier votre email.')
+            return redirect('verification_code')
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
@@ -90,14 +133,19 @@ def patient_index(request):
     pandemic_signals = PandemicSignal.objects.all().order_by('-last_detected')[:5]
     # Statistiques de santé
     # Rendez-vous cette année
-    appointments_this_year = Appointment.objects.filter(patient=request.user, date__year=today.year).count()
-    # Taux d'assiduité
-    attendance_rate = appointments_this_year / Appointment.objects.filter(patient=request.user).count() * 100
-    # Médecins consultés
-    doctors = Appointment.objects.filter(patient=request.user).values('doctor').distinct()
-    # Examens en attente
-    pending_exams = MedicalRecord.objects.filter(patient=request.user).count()
-    
+    try:
+        appointments_this_year = Appointment.objects.filter(patient=request.user, date__year=today.year).count()
+        # Taux d'assiduité
+        attendance_rate = appointments_this_year / Appointment.objects.filter(patient=request.user).count() * 100
+        # Médecins consultés
+        doctors = Appointment.objects.filter(patient=request.user).values('doctor').distinct()
+        # Examens en attente
+        pending_exams = MedicalRecord.objects.filter(patient=request.user).count()
+    except ZeroDivisionError:
+        attendance_rate = 0
+        appointments_this_year = 0
+        doctors = 0
+        pending_exams = 0
     context = {
         'dashboard_infos': dashboard_infos,
         'upcoming_appointments': upcoming_appointments,

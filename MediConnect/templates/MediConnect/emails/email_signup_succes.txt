@@ -1,0 +1,5 @@
+MediConnect AI
+Dear {{ user.first_name }} {{ user.last_name }},
+Thank you for signing up to MediConnect AI. We are excited to have you on board!
+Best regards,
+MediConnect AI

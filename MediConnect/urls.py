@@ -13,4 +13,5 @@ urlpatterns = [
     path('my-cases/',my_cases,name='my_cases'),
     path('submit-case/',submit_case,name='submit_case'),
     path('profile/',profile,name='profile'),
+    path('verification-code/',verification_code_view,name='verification_code'),
 ]

@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     # en locale
     'localhost',
     '127.0.0.1',
+    '10.117.40.83',
     '[::1]',
     '.railway.app', # Laissez ceci pour l'URL de base Railway
 ]
@@ -46,6 +47,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://[::1]:8000',
+    'http://10.117.40.83:8000',
     # Optionnel, si vous utilisez l'URL fournie par Railway
     'https://*.up.railway.app', 
 ]
