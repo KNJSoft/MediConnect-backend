@@ -11,6 +11,8 @@ from .views import *
 urlpatterns = [
     # views
     path('',patient_index,name='patient_index'),
+    path('signup/',signup_view,name='signup'),
+    path('login/',login_view,name='login'),
     # user
     path('user/login',UserLogin.as_view(),name='user_login'),
     path('user/patient',UserPatientCreate.as_view(),name='user_patient'),
