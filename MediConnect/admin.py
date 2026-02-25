@@ -10,6 +10,10 @@ admin.site.register(KnowledgeBase)
 admin.site.register(PandemicSignal)
 admin.site.register(Case)
 admin.site.register(DoctorProfile)
+admin.site.register(Appointment)
+admin.site.register(MedicalRecord)
+admin.site.register(Message)
+admin.site.register(DashboardInfo)
 
 # user tokens
 # admin.site.register(OutstandingToken)

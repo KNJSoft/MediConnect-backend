@@ -189,6 +189,84 @@ class PandemicSignal(models.Model):
     alert_level = models.CharField(max_length=20, default="Low")
     last_detected = models.DateTimeField(auto_now=True)
 
+class DashboardInfo(models.Model):
+    """Informations affichées dynamiquement sur le dashboard du patient"""
+    title = models.CharField(max_length=200, verbose_name="Titre de l'annonce")
+    content = models.TextField(verbose_name="Message ou Conseil du jour")
+    category = models.CharField(
+        max_length=50, 
+        choices=[('INFO', 'Information'), ('TIP', 'Conseil Santé'), ('ALERT', 'Alerte Sanitaire')],
+        default='INFO'
+    )
+    is_active = models.BooleanField(default=True, verbose_name="Afficher sur l'accueil")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Info Accueil"
+        verbose_name_plural = "Infos Accueil"
+
+
+class Appointment(models.Model):
+    """Rendez-vous médicaux"""
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to={'role': 'DOCTOR'})
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(
+        max_length=20, 
+        choices=[('SCHEDULED', 'Programmé'), ('COMPLETED', 'Terminé'), ('CANCELLED', 'Annulé')],
+        default='SCHEDULED'
+    )
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Rendez-vous {self.patient} avec {self.doctor} le {self.date}"
+
+    class Meta:
+        verbose_name = "Rendez-vous"
+        verbose_name_plural = "Rendez-vous"
+        ordering = ['-date', '-time']
+
+
+class MedicalRecord(models.Model):
+    """Dossiers médicaux"""
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='medical_records')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_records', limit_choices_to={'role': 'DOCTOR'})
+    date = models.DateField()
+    diagnosis = models.TextField()
+    treatment = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Dossier de {self.patient} - {self.diagnosis}"
+
+    class Meta:
+        verbose_name = "Dossier Médical"
+        verbose_name_plural = "Dossiers Médicaux"
+        ordering = ['-date']
+
+
+class Message(models.Model):
+    """Messagerie entre utilisateurs"""
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    subject = models.CharField(max_length=200)
+    content = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message de {self.sender} à {self.receiver}: {self.subject}"
+
+    class Meta:
+        verbose_name = "Message"
+        verbose_name_plural = "Messages"
+        ordering = ['-created_at']
 
 class DeviceManager(models.Manager):
     """Gestionnaire personnalisé pour le modèle Device"""

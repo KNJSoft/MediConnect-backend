@@ -7,7 +7,10 @@ from .api_views.api_KnowledgeBase import *
 from .api_views.api_PandemicSignal import *
 from .api_views.api_Case import *
 from .api_views.api_DoctorProfile import *
+from .views import *
 urlpatterns = [
+    # views
+    path('',patient_index,name='patient_index'),
     # user
     path('user/login',UserLogin.as_view(),name='user_login'),
     path('user/patient',UserPatientCreate.as_view(),name='user_patient'),

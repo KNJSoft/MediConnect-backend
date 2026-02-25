@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from MediConnect.views import patient_index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include("MediConnect.urls"))
+    path('api/',include("MediConnect.urls")),
+    path('', patient_index, name='patient_index'),
 ]
