@@ -1,7 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import DashboardInfo, Appointment, MedicalRecord, Message,User
+from .models import DashboardInfo, Appointment, MedicalRecord, Message,User,UserRole
 from django.utils import timezone
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -50,7 +51,7 @@ def signup_view(request):
             first_name=first_name,
             last_name=last_name,
             password=password1,
-            role='PATIENT'  # Default to patient
+            role=UserRole.PATIENT  # Default to patient
         )
         login(request, user)
         messages.success(request, 'Inscription réussie!')
@@ -71,15 +72,20 @@ def login_view(request):
             messages.error(request, 'Email ou mot de passe incorrect.')
     return render(request, 'MediConnect/login.html')
 
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Déconnexion réussie!')
+    return redirect('login')
+# @login_required(login_url="login")
 def patient_index(request):
     """
     Vue pour la page d'accueil des patients.
     """
     today = timezone.now().date()
     dashboard_infos = DashboardInfo.objects.filter(is_active=True).order_by('-created_at')
-    upcoming_appointments = Appointment.objects.filter(status='SCHEDULED', date__gte=today).order_by('date', 'time')[:5]
-    recent_records = MedicalRecord.objects.all().order_by('-date')[:3]
-    recent_messages = Message.objects.all().order_by('-created_at')[:5]
+    upcoming_appointments = Appointment.objects.filter(status='SCHEDULED',patient=request.user, date__gte=today).order_by('date', 'time')[:5]
+    recent_records = MedicalRecord.objects.all().filter(patient=request.user).order_by('-date')[:3]
+    recent_messages = Message.objects.all().filter(sender=request.user,receiver=request.user).order_by('-created_at')[:5]
     
     context = {
         'dashboard_infos': dashboard_infos,
