@@ -28,15 +28,35 @@ class UserRegistrationForm(UserCreationForm):
 
 def signup_view(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Inscription réussie!')
-            return redirect('patient_index')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'MediConnect/signup.html', {'form': form})
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        password1 = request.POST.get('password1')
+        # password2 = request.POST.get('password2')  # Commented out as per template
+        
+        # Basic validation
+        if not all([email, first_name, last_name, password1]):
+            messages.error(request, 'Tous les champs sont requis.')
+            return render(request, 'MediConnect/signup.html')
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Un utilisateur avec cet email existe déjà.')
+            return render(request, 'MediConnect/signup.html')
+        
+        # Create user
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=password1,
+            role='PATIENT'  # Default to patient
+        )
+        login(request, user)
+        messages.success(request, 'Inscription réussie!')
+        return redirect('patient_index')
+    
+    return render(request, 'MediConnect/signup.html')
 
 def login_view(request):
     if request.method == 'POST':
