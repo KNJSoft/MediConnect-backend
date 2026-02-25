@@ -160,9 +160,9 @@ class Case(models.Model):
     doctor = models.ForeignKey(DoctorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     
     symptoms_description = models.TextField(help_text="User's raw description")
-    ai_clarification = models.TextField(blank=True, help_text="AI's summarized/clarified version")
+    ai_clarification = models.TextField(blank=True,null=True, help_text="AI's summarized/clarified version")
     
-    suggested_medication = models.CharField(max_length=200, blank=True, help_text="OTC medication suggested by IA or Doctor")
+    suggested_medication = models.CharField(max_length=200, blank=True,null=True, help_text="OTC medication suggested by IA or Doctor")
     
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
     is_emergency = models.BooleanField(default=False)
@@ -189,6 +189,11 @@ class PandemicSignal(models.Model):
     alert_level = models.CharField(max_length=20, default="Low")
     last_detected = models.DateTimeField(auto_now=True)
 
+    # analyser les cas chaque 2h de temps en enregistrant les symptomes les plus fréquents
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+
 class DashboardInfo(models.Model):
     """Informations affichées dynamiquement sur le dashboard du patient"""
     title = models.CharField(max_length=200, verbose_name="Titre de l'annonce")
@@ -212,7 +217,7 @@ class DashboardInfo(models.Model):
 class Appointment(models.Model):
     """Rendez-vous médicaux"""
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to={'role': 'DOCTOR'})
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to={'role': 'DOCTOR'},blank=True,null=True)
     date = models.DateField()
     time = models.TimeField()
     status = models.CharField(

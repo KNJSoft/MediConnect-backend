@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Mes Rendez-vous{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">Mes Rendez-vous</h1>
+        <p class="lead">Voici vos rendez-vous.</p>
+    </div>
+</section>
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.date }}</td>
+                            <td>{{ appointment.time }}</td>
+                            <td>{{ appointment.doctor }}</td>
+                            <td>{{ appointment.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

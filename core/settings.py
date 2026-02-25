@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #add
+    'django_celery_beat',
     'MediConnect.apps.MediconnectConfig',
 
     'rest_framework',
@@ -69,6 +70,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', # If using JWT
 
 ]
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Douala'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

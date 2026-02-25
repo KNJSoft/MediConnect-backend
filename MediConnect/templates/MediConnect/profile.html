@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-section pt-1 pb-1">
+    <div class="container text-center">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle w-25 h-25">
+        {% else %}
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle w-25 h-25">
+        {% endif %}
+    <h3 class="display-4 fw-bold">{{ user.first_name }} {{ user.last_name }}</h3>
+
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Profile</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" class="form-control" id="first_name" value="{{ user.first_name }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" class="form-control" id="last_name" value="{{ user.last_name }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" value="{{ user.email }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <input type="text" class="form-control" id="role" value="{{ user.role }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

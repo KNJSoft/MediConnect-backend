@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Prendre un rendez-vous - MediConnect{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">Prendre un rendez-vous</h1>
+        <p class="lead">Choisissez un médecin et une date pour votre rendez-vous.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h4 class="text-center mb-4">Selectionnez une date et une heure, le doctor disponible sera selectionner automatiquement</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- date -->
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <!-- time -->
+                    <div class="mb-3">
+                        <label for="time" class="form-label">Heure</label>
+                        <input type="time" class="form-control" id="time" name="time" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

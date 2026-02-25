@@ -11,13 +11,13 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'patient_index' %}">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mes Rendez-vous</a>
+                    <a class="nav-link" href="{% url 'my_appointments' %}">Mes Rendez-vous</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mes Dossiers</a>
+                    <a class="nav-link" href="{% url 'my_records' %}">Mes Dossiers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Messagerie</a>
+                    <a class="nav-link" href="{% url 'my_messages' %}">Messagerie</a>
                 </li>
                 {% endif %}
             </ul>
@@ -28,7 +28,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="#">Profil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
                         <li><a class="dropdown-item" href="#">Paramètres</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
