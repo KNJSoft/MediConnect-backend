@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Mes Cas{% endblock %}
+{% block title %}My Cases{% endblock %}
 {% block content %}
 <section class="hero-section">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold">Mes symptômes</h1>
-        <p class="lead">Voici la liste de vos symptômes, enregistrés sur la plateforme.</p>
+        <h1 class="display-4 fw-bold">My Cases</h1>
+        <p class="lead">Here are your cases, registered on the platform.</p>
     </div>
 </section>
 <section class="py-5">
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <!-- link submit case -->
-                <a href="{% url 'submit_case' %}" class="btn btn-primary left">Soumettre un nouveau cas</a>
+                <a href="{% url 'submit_case' %}" class="btn btn-primary left">Submit a new case</a>
                 <div class="card">
                     <div class="card-body">
                         {% for case in cases %}
@@ -21,8 +21,8 @@
                                     <h5 class="card-title">{{ case.patient.first_name }} {{ case.patient.last_name }}</h5>
                                     <p class="card-text">{{ case.symptoms_description }}</p>
                                     <p class="card-text">AI: {{ case.ai_clarification }}</p>
-                                    <p class="card-text">OTC: {{ case.suggested_medication }}</p>
-                                    <p class="card-text"><small class="text-muted">Ajouté le {{ case.created_at }}</small></p>
+                                    <p class="card-text">Doctor: {{ case.suggested_medication }}</p>
+                                    <p class="card-text"><small class="text-muted">Added on {{ case.created_at }}</small></p>
                                 </div>
                             </div>
                         {% endfor %}

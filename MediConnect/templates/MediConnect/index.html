@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Accueil Patient - MediConnect{% endblock %}
+{% block title %}Patient Home - MediConnect{% endblock %}
 
 {% block content %}
 <section class="hero-section">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold">Bienvenue sur MediConnect</h1>
-        <p class="lead">Votre espace santé personnel pour une prise en charge optimale</p>
-        <a href="{% url 'appointment' %}" class="btn btn-light btn-lg">Prendre un rendez-vous</a>
+        <h1 class="display-4 fw-bold">Welcome to MediConnect</h1>
+        <p class="lead">Your personal health space for optimal care</p>
+        <a href="{% url 'appointment' %}" class="btn btn-light btn-lg">Take an appointment</a>
     </div>
 </section>
 
@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-center mb-4">Annonces et Conseils</h2>
+                <h2 class="text-center mb-4">News and Tips</h2>
                 <div class="row g-4">
                     {% for info in dashboard_infos %}
                     <div class="col-md-6 col-lg-4">
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 {% if pandemic_signals %}
-                <h2 class="text-center mb-4">Signaux Epidémiologiques</h2>
+                <h2 class="text-center mb-4">Pandemic Signals</h2>
                 <div class="row g-4">
                     {% for signal in pandemic_signals %}
                     <div class="col-md-6 col-lg-4">
@@ -68,15 +68,15 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                <h2 class="text-center mb-4 mt-4">Actions rapides</h2>
+                <h2 class="text-center mb-4 mt-4">Quick Actions</h2>
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="card text-center">
                             <div class="card-body">
                                 <i class="bi bi-calendar-check-fill fs-1 text-primary mb-3"></i>
-                                <h5 class="card-title">Decrire un cas</h5>
-                                <p class="card-text">Decrire vos symptomes</p>
-                                <a href="{% url 'submit_case' %}" class="btn btn-primary">Decrire un cas</a>
+                                <h5 class="card-title">Describe a case</h5>
+                                <p class="card-text">Describe your symptoms</p>
+                                <a href="{% url 'submit_case' %}" class="btn btn-primary">Describe a case</a>
                             </div>
                         </div>
                     </div>
@@ -84,9 +84,9 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <i class="bi bi-calendar-check-fill fs-1 text-primary mb-3"></i>
-                                <h5 class="card-title">Mes Rendez-vous</h5>
-                                <p class="card-text">Consultez et gérez vos consultations médicales.</p>
-                                <a href="{% url 'my_appointments' %}" class="btn btn-primary">Voir mes RDV</a>
+                                <h5 class="card-title">My Appointments</h5>
+                                <p class="card-text">Consult and manage your medical appointments.</p>
+                                <a href="{% url 'my_appointments' %}" class="btn btn-primary">View my Appointments</a>
                             </div>
                         </div>
                     </div>
@@ -94,9 +94,9 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <i class="bi bi-file-earmark-medical-fill fs-1 text-success mb-3"></i>
-                                <h5 class="card-title">Mes Dossiers</h5>
-                                <p class="card-text">Accédez à vos dossiers médicaux et résultats.</p>
-                                <a href="{% url 'my_records' %}" class="btn btn-success">Consulter</a>
+                                <h5 class="card-title">My Records</h5>
+                                <p class="card-text">Access your medical records and results.</p>
+                                <a href="{% url 'my_records' %}" class="btn btn-success">Consult</a>
                             </div>
                         </div>
                     </div>
@@ -104,9 +104,9 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <i class="bi bi-chat-dots-fill fs-1 text-info mb-3"></i>
-                                <h5 class="card-title">Messagerie</h5>
-                                <p class="card-text">Communiquez avec vos professionnels de santé.</p>
-                                <a href="{% url 'my_messages' %}" class="btn btn-info">Messagerie</a>
+                                <h5 class="card-title">Messages</h5>
+                                <p class="card-text">Communicate with your healthcare professionals.</p>
+                                <a href="{% url 'my_messages' %}" class="btn btn-info">Messages</a>
                             </div>
                         </div>
                     </div> -->
@@ -120,7 +120,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <h2>Prochains rendez-vous</h2>
+                <h2>Upcoming Appointments</h2>
                 {% if upcoming_appointments %}
                 <div class="list-group">
                     {% for appointment in upcoming_appointments %}
@@ -137,11 +137,11 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted">Aucun rendez-vous programmé.</p>
+                <p class="text-muted">No scheduled appointments.</p>
                 {% endif %}
             </div>
             <div class="col-lg-6">
-                <h2>Dossiers récents</h2>
+                <h2>Recent Records</h2>
                 {% if recent_records %}
                 <div class="list-group">
                     {% for record in recent_records %}
@@ -155,7 +155,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted">Aucun dossier médical récent.</p>
+                <p class="text-muted">No recent medical records.</p>
                 {% endif %}
             </div>
         </div>
@@ -163,7 +163,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-center mb-4">Messages récents</h2>
+                <h2 class="text-center mb-4">Recent Messages</h2>
                 {% if recent_messages %}
                 <div class="row g-4">
                     {% for message in recent_messages %}
@@ -182,7 +182,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-center text-muted">Aucun message récent.</p>
+                <p class="text-center text-muted">No recent messages.</p>
                 {% endif %}
             </div>
         </div>
@@ -191,13 +191,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-center mb-4">Statistiques de santé</h2>
+                <h2 class="text-center mb-4">Health Statistics</h2>
                 <div class="row text-center">
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="text-primary">{{appointments_this_year}}</h3>
-                                <p>Rendez-vous cette année</p>
+                                <p>Appointments this year</p>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="text-success">{{attendance_rate}}%</h3>
-                                <p>Taux d'assiduité</p>
+                                <p>Attendance rate</p>
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="text-info">  {{doctors.count}}</h3>
-                                <p>Médecins consultés</p>
+                                <p>Doctors consulted</p>
                             </div>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="text-warning">{{pending_exams}}</h3>
-                                <p>Examens en attente</p>
+                                <p>Pending exams</p>
                             </div>
                         </div>
                     </div>

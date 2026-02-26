@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Soumettre un Cas{% endblock %}
+{% block title %}Submit Case{% endblock %}
 {% block content %}
 <section class="hero-section">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold">Soumettre un Cas</h1>
-        <p class="lead">Soumettre un cas pour obtenir un traitement.</p>
+        <h1 class="display-4 fw-bold">Submit Case</h1>
+        <p class="lead">Submit a case to get treatment.</p>
     </div>
 </section>
 <section class="py-5">
@@ -12,16 +12,16 @@
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <!-- link my cases -->
-                <a href="{% url 'my_cases' %}" class="btn btn-primary">Mes Cas</a>
+                <a href="{% url 'my_cases' %}" class="btn btn-primary">My Cases</a>
                 <div class="card">
                     <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="symptoms_description" class="form-label">Description des symptômes</label>
+                                <label for="symptoms_description" class="form-label">Description of symptoms</label>
                                 <textarea type="text" class="form-control" id="symptoms_description" name="symptoms_description" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Soumettre</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>

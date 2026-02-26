@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Prendre un rendez-vous - MediConnect{% endblock %}
+{% block title %}Take an appointment - MediConnect{% endblock %}
 
 {% block content %}
 <section class="hero-section">
     <div class="container text-center">
-        <h1 class="display-4 fw-bold">Prendre un rendez-vous</h1>
-        <p class="lead">Choisissez un médecin et une date pour votre rendez-vous.</p>
+        <h1 class="display-4 fw-bold">Take an appointment</h1>
+        <p class="lead">Choose a doctor and a date for your appointment.</p>
     </div>
 </section>
 
@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <h4 class="text-center mb-4">Selectionnez une date et une heure, le doctor disponible sera selectionner automatiquement</h4>
+                <h4 class="text-center mb-4">Select a date and time, the available doctor will be selected automatically</h4>
                 <form method="post">
                     {% csrf_token %}
                     <!-- date -->
@@ -24,10 +24,10 @@
                     </div>
                     <!-- time -->
                     <div class="mb-3">
-                        <label for="time" class="form-label">Heure</label>
+                        <label for="time" class="form-label">Time</label>
                         <input type="time" class="form-control" id="time" name="time" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+                    <button type="submit" class="btn btn-primary">Take appointment</button>
                 </form>
             </div>
         </div>

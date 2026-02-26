@@ -1,5 +1,5 @@
 MediConnect
 Verification Code
-Voici votre code de verification : {{ user }}
-Cordialement
+Here is your verification code : {{ user }}
+Best regards
 MediConnect
